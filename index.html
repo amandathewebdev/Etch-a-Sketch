@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Etch-a-Sketch | amandathewebdev</title>
+
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-size: 16px;
+			}
+			.container {
+				width: 90%;
+			    max-width: 900px;
+			    margin: 2em auto;
+			    font: .9em/1.2 Arial, Helvetica, sans-serif;
+			}
+			#grid {
+				display: grid;
+				grid-gap: 3px;
+
+				width: 1000px;
+				height: 1000px;
+				max-height: 1000px;
+				
+			}
+			#grid div {
+				background-color: black;
+			}  
+			button {
+				margin: 1em auto;
+				display:block;
+				max-width: 200px;
+				background-color: orange;
+				padding: 1em 2em;
+				border: none;
+				color: #fff;
+				font-weight: bold;
+				border-radius: 10px;
+			}
+			button:hover {
+				background-color: #333;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<button id="reset-btn">Reset Grid</button>
+			<div id="grid"></div>
+		</div>
+
+		<script>
+			//create a grid of 16x16 squares inside of #grid
+			let grid = document.querySelector('#grid');
+
+			for (i = 0; i < 256; i++) {
+				grid.setAttribute('style', 'grid-template-columns: repeat(16, 1fr); grid-template-rows: repeat(16, 1fr);');
+
+				let unit = document.createElement('div');
+				unit.classList.add('unit');
+				grid.appendChild(unit);
+
+				unit.addEventListener('mouseover', () => {
+				  unit.style.backgroundColor = getRandomRGB();
+				});
+				unit.addEventListener('mouseleave', () => {
+				  unit.style.backgroundColor = 'black';
+				});
+			}
+
+			//on hover, grid divs change random color
+			function getRandomRGB() {
+				let r = Math.floor(Math.random() * 256);
+				let g = Math.floor(Math.random() * 256);
+				let b = Math.floor(Math.random() * 256);
+
+				let randomRGB = "rgb(" + r + "," + g + "," + b + ")";
+				return randomRGB;
+			}
+
+			//add button to clear grid & prompt user
+			function resetGrid() {
+				let userInput = window.prompt('How many squares per side should we make the new grid?');
+				let newGridWidth = userInput * userInput;
+
+				for (j = 0; j < newGridWidth; j++) {
+					grid.setAttribute('style', 'grid-template-columns: repeat(' + userInput +',' + '1fr); grid-template-rows: repeat(' + userInput +',' + '1fr);');
+				}
+				
+			}
+
+			const btn = document.querySelector('#reset-btn');
+			btn.addEventListener('click', () => {
+				resetGrid();
+			});
+
+		</script>
+	</body>
+</html>
